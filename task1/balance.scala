@@ -1,5 +1,3 @@
-
-
 object balance {
   def balance(chars: List[Char]): Boolean = {
 		def Iter(char: List[Char], num: Int): Boolean = {
