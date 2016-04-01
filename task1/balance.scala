@@ -5,11 +5,11 @@ object balance {
 				num == 0
 			}
 			else if (char.head == '('){
-				Iter(char.tail,num + 1)
+				Iter(char.tail, num + 1)
 			}
 			else if (char.head == ')'){
 				if (num > 0)
-					Iter(char.tail,num - 1)
+					Iter(char.tail, num - 1)
 				else
 					false
 			}
