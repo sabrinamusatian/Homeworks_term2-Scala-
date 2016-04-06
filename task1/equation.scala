@@ -52,5 +52,5 @@ object equationSolver {
     else {
       cube(coef)
     }
-  }                                               //> roots: (coef: Array[Double])List[Double]
+  }                                               
 }
