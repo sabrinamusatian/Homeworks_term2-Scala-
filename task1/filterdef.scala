@@ -3,7 +3,7 @@ object filterdef {
   	if (a.isEmpty)
   		List()
   	else if (a.head != k)
-  		List.concat(List(a.head), filter(a.tail, k))
+  		a.head :: filter(a.tail, k)
   	else
   		filter(a.tail, k)
   }                                              
