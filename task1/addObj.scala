@@ -1,5 +1,10 @@
 object addObj {
-  def add[A](a : List[A], b: A): List[A] = {
-  	List.concat(a, List(b))
-  }                                         
+  def add[A](list: List[A], elem: A): List[A] = {
+		if (list.isEmpty) {
+			List(elem)
+		}
+		else {
+			list.head :: add(list.tail, elem)
+		}
+  }                                               //> add: [A](list: List[A], elem: A)List[A]
 }
