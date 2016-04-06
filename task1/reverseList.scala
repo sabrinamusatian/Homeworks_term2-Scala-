@@ -4,7 +4,7 @@ object reverseList {
       if (list.isEmpty) {
         res
       } else {
-        reverseHelp(list.tail, list.head::res)
+        reverseHelp(list.tail, list.head :: res)
       }
     reverseHelp(l, List())
   }                                               //> reverse: [A](l: List[A])List[A]
