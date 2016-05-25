@@ -161,9 +161,9 @@ object Draw extends SimpleSwingApplication {
         casesDescriotor(newVector, newGif)
       }
       else if (extension == 59) {
-        val gif_out = new gifFile(giffile.header, giffile.globColtable, giffile.descriptors.reverse,
+        val gifOut = new gifFile(giffile.header, giffile.globColtable, giffile.descriptors.reverse,
           giffile.images.reverse, giffile.animations.reverse)
-        gif_out
+        gifOut
       }
       else if (extension == 33) {
         val label = vector.drop(8).take(8).toInt(false, LittleEndian)
