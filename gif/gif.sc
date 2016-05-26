@@ -10,21 +10,7 @@ import swing.{Panel, MainFrame, SimpleSwingApplication}
 import java.awt.{Color, Graphics2D, Dimension}
 import java.awt.image.BufferedImage
 
-
-object Timer {
-  def apply(interval: Int, repeats: Boolean = true)(op: => Unit) {
-    val timeOut = new javax.swing.AbstractAction() {
-      def actionPerformed(e : java.awt.event.ActionEvent) = op
-    }
-    val t = new javax.swing.Timer(interval, timeOut)
-    t.setRepeats(repeats)
-    t.start()
-  }
-}
-
-
 class DataPanel(data: Array[Array[Color]], BG: String) extends Panel {
-
   override def paintComponent(g: Graphics2D) {
     val width = data.length
     val height = data.map(_.length).max
@@ -46,13 +32,22 @@ class DataPanel(data: Array[Array[Color]], BG: String) extends Panel {
       g.fillRect(x1, y1, x2 - x1, y2 - y1)
     }
   }
-
 }
 
+object Timer {
+  def apply(interval: Int, repeats: Boolean = true)(op: => Unit) {
+    val timeOut = new javax.swing.AbstractAction() {
+      def actionPerformed(e : java.awt.event.ActionEvent) = op
+    }
+    val t = new javax.swing.Timer(interval, timeOut)
+    t.setRepeats(repeats)
+    t.start()
+  }
+}
+
+
 object render extends SimpleSwingApplication {
-
-  val decodedpict = new Decoder("animgif.gif");
-
+  val decodedpict = new Decoder("image.gif");
   val width = decodedpict.HeadOfGIF.sizes.width
   val height = decodedpict.HeadOfGIF.sizes.height
   val scale = 10
@@ -290,16 +285,12 @@ class Decoder(path : String) {
       else{ 
         bodydecode(gifH, v.drop(19 * 8),GraphContrList,TextList,ImList)
       }
-
     }
-
   }
-
   val byteArray = Files.readAllBytes(Paths.get(path))
   var bitVector = BitVector(byteArray)
   val HeadOfGIF = headsplit(bitVector)
   bitVector = bitVector.drop(13 * 8 + HeadOfGIF.palitrpar.size * 8 * 3)
-
   val body = bodydecode(HeadOfGIF,bitVector, Nil, Nil, Nil)
 
 }
