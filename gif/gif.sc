@@ -4,14 +4,11 @@ import bits._
 import scodec.codecs._
 import java.nio.file.{Files, Paths}
 import java.io._
-
 import scodec.bits.ByteOrdering.{LittleEndian}
 import scala.collection.mutable.ArrayBuffer
-
 import swing.{Panel, MainFrame, SimpleSwingApplication}
 import java.awt.{Color, Graphics2D, Dimension}
 import java.awt.image.BufferedImage
-
 
 
 object Timer {
@@ -63,38 +60,30 @@ object render extends SimpleSwingApplication {
   var time = decodedpict.body.GraphContrList.toArray
   if (time.isEmpty) time = time:+(GraphicControl(0,0,1000,0))
   def top = new MainFrame {
-
     var i = 0
    Timer(time(i).delay) {
      if (i == el.length) i = 0
      tick(i)
      i = i + 1
    }
-
    def tick(i: Int) ={
      val data = Array.ofDim[Color](width, height)
-
      for {
        x <- 0 until data.length
        y <- 0 until data(x).length} {
-
        if (x < el(i).imp.left || y < el(i).imp.top) data(x)(y) = new Color(0,0,0,0);
        else data(x + el(i).imp.left)(y + el(i).imp.top) = Color.decode(el(i).decoded(y)(x))
      }
      { contents = new DataPanel(data, decodedpict.HeadOfGIF.BG) {
        preferredSize = new Dimension(width * scale, height * scale)}
      }
-
    }
-
  }
 }
 
 case class GifHead(sizes: GIFSizes, BG: String, palitrpar: PalitraParametrs, GlobalPalitra: Array[BitVector])
 case class GifBody(GraphContrList: List[GraphicControl], TextList: List[PlainText], ImList: List[Images])
-
 case class GIFSizes(width : Int, height : Int)
-
 case class PalitraParametrs(deep: Int, size: Int)
 case class ImageParamet(left: Int, top: Int, pH: Int, pW: Int)
 
@@ -104,7 +93,6 @@ case class Images(imp: ImageParamet, lzwstart: Int, v: BitVector, palitraParam: 
   private var library = ArrayBuffer[List[Int]]()
   for (i<- 0 until maxnum){
     library += i.toInt :: Nil
-  //  println(i.toString + library(i))
   }
   private def reversing (vect: BitVector, total: BitVector): BitVector = {
     if (vect.isEmpty) total
@@ -112,29 +100,24 @@ case class Images(imp: ImageParamet, lzwstart: Int, v: BitVector, palitraParam: 
   }
 
   private def lzwdecode (start: BitVector, tot: ArrayBuffer[List[Int]], s: Int, lastnum: Int): ArrayBuffer[List[Int]] = {
-    //  println(start.take(s).reverseBitOrder.toInt(false, LittleEndian))
     if (start.take(s).reverseBitOrder.toInt(false, LittleEndian) != maxnum - 2 && tot.isEmpty) lzwdecode(start.drop(lzwstart), tot, lzwstart, 0)
     else if (start.take(s).reverseBitOrder.toInt(false, LittleEndian) == maxnum - 2 ) {
       library = library.take(maxnum)
       lzwdecode(start.drop(s + lzwstart), tot += (start.drop(s).take(lzwstart).reverseBitOrder.toInt(false,LittleEndian)::Nil),lzwstart, 0)
     }
-
     else  if (start.take(s).reverseBitOrder.toInt(false,LittleEndian) == maxnum - 1 || start.isEmpty) tot
     else{
-    //  print (start.take(s).toBin)
       val n = start.take(s).reverseBitOrder.toInt(false, LittleEndian)
-    //  print(" " + n + " ")
       if (library.length > n) {
         val x1 = library(n).head
         library += tot(lastnum):::(x1::Nil)
-      //  println(library(n) + " + " + (lastnum + maxnum).toString + library(lastnum + maxnum))
+   
         if (library.length < math.pow(2, s)) lzwdecode(start.drop(s), tot += library(n), s, lastnum+1)
         else lzwdecode(start.drop(s), tot += library(n), s + 1, lastnum + 1)
       }
       else{
         val x1 = tot(lastnum).head
         library += tot(lastnum):::(x1::Nil)
-     //   println(library(n))
         if (library.length < math.pow(2, s)) lzwdecode(start.drop(s), tot += library(n), s, lastnum+1)
         else lzwdecode(start.drop(s), tot += library(n), s + 1, lastnum + 1)
       }
@@ -147,13 +130,11 @@ case class Images(imp: ImageParamet, lzwstart: Int, v: BitVector, palitraParam: 
       for {i<- 0 until len}{
         if (i == palitra.length) ar(i) = "clear"
         else ar(i) = "#" + palitra(ls(i)).toHex
-      //  print(ar(i) + " ")
       }
       ar
     }
 
     def forall (Ls: List[Int], t: ArrayBuffer[Array[String]]): ArrayBuffer[Array[String]] = {
-     // print("\n")
       if (Ls.isEmpty) t
       else forall(Ls.drop(len), t += newstring(Ls))
     }
@@ -326,7 +307,7 @@ class Decoder(path : String) {
 object test {
   def main(args: Array[String]) {
     for (i <- 1 to 5) {
-      println("I'm acting!")
+      println("Working!")
       Thread.sleep(1000)
     }
   }
